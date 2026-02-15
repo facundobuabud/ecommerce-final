@@ -1,0 +1,16 @@
+meta {
+  name: restore product
+  type: http
+  seq: 5
+}
+
+patch {
+  url: http://localhost:52000/products/69901d92c5766565468d9c1f/restore
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

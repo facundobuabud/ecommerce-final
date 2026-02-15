@@ -1,0 +1,29 @@
+meta {
+  name: add product
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:52000/products
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Jean",
+    "description": "Pantalon de jean color azul",
+    "price": 60000,
+    "stock": 9,
+    "category": "Pantalones",
+     "brand": "Zara",
+    "talle": ["M"]
+  }
+  
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
