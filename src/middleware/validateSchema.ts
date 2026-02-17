@@ -13,7 +13,4 @@ export const validateSchema = (schema: ZodSchema) =>
     next();
   }
 
-
-
-
 export default validateSchema;

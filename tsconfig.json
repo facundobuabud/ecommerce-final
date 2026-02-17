@@ -5,6 +5,13 @@
     "esModuleInterop": true,
     "noImplicitAny": true,
     "strict": true,
-    "moduleResolution": "node"
-  }
+    "moduleResolution": "node",
+    "typeRoots": [
+      "./src/types",
+      "./node_modules/@types"
+    ]
+  },
+  "include": [
+    "src"
+  ]
 }

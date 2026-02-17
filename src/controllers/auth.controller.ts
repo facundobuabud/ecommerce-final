@@ -5,10 +5,9 @@ import dotenv from "dotenv";
 import { Request, Response } from "express";
 import { registerValidate, loginValidate } from "../validators/user.validator";
 import { IPayload } from "../interfaces/jwt.interface";
-
 dotenv.config()
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET as string;
 
 if (!JWT_SECRET) {
   throw new Error("JWT_SECRET no esta definido")
@@ -46,7 +45,6 @@ export const registerUser = async (req: Request, res: Response) => {
       }
     })
   } catch (error) {
-    const err = error as Error
     return res.status(500).json({ success: false, message: "Error al resgistrar al usuario" })
   }
 }
@@ -57,7 +55,7 @@ export const loginUser = async (req: Request, res: Response) => {
     const data: loginValidate = req.body
     const { email, password } = data;
 
-    const foundUser = await User.findOne({ email });
+    const foundUser = await User.findOne({ email }).select("+password");
 
     if (!foundUser) {
       return res.status(401).json({ success: false, message: "Credenciales invalidas" })

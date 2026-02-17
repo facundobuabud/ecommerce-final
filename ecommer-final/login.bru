@@ -1,0 +1,23 @@
+meta {
+  name: login
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:52000/auth/login
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "email": "deboh@gmail.com",
+    "password": "1234567"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
