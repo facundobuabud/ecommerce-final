@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import productRoutes from "./routes/porduct.routes";
 import authRoutes from "./routes/auth.routes"
-import { authMiddleware } from "./middleware/auth.middleware";
+
 
 dotenv.config();
 
@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/products", authMiddleware, productRoutes)
+app.use("/products", productRoutes)
 
 app.use("/auth", authRoutes)
 
