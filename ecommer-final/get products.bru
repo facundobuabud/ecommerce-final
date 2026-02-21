@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: http://localhost:52000/products
+  url: http://localhost:52000/products?category=Pantalon
   body: none
   auth: inherit
 }
 
-headers {
-  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OTQ4NGQwMGM5ZTk5YTk0YmJjYThmZCIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzcxMzQ3NjU3LCJleHAiOjE3NzE0MzQwNTd9.gRVl3FQya4IdaNkitaEFzFm6YD2Gmn9xznVwiteoeeE
+params:query {
+  category: Pantalon
 }
 
 settings {

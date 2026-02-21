@@ -13,7 +13,7 @@ productRoutes.get("/", getProducts)
 
 productRoutes.patch("/:id", authMiddleware, isAdmin, validateSchema(productSchemaPartial), updateProduct)
 
-productRoutes.delete("/:id", deleteProduct)
+productRoutes.delete("/:id", authMiddleware, isAdmin, deleteProduct)
 
 productRoutes.patch("/:id/restore", authMiddleware, isAdmin, restoreProduct)
 

@@ -26,8 +26,38 @@ export const createProduct = async (req: Request, res: Response) => {
 
 export const getProducts = async (req: Request, res: Response) => {
   try {
-    const products = await Product.find({ isActive: true });
-    return res.status(200).json({ success: true, products });
+    const { minPrice, maxPrice, category, brand, search, sortBy, order, page, limit } = req.query;
+
+    const filter: any = { isActive: true };
+
+    if (category) filter.category = category;
+    if (brand) filter.brand = brand;
+
+    if (minPrice || maxPrice) {
+      filter.price = {};
+      if (minPrice) filter.price.$gte = Number(minPrice);
+      if (maxPrice) filter.price.$lte = Number(maxPrice);
+    }
+
+    if (search) {
+      filter.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { description: { $regex: search, $options: "i" } }
+      ];
+    }
+
+    const sortOrder = order === "desc" ? -1 : 1;
+    const sortField = (sortBy as string) || "createdAt";
+
+    const pageNumber = Number(page) || 1;
+    const pageSize = Number(limit) || 10;
+    const skip = (pageNumber - 1) * pageSize;
+
+    const total = await Product.countDocuments(filter)
+
+    const products = await Product.find(filter).sort({ [sortField]: sortOrder }).skip(skip).limit(pageSize);
+
+    return res.status(200).json({ success: true, total, page: pageNumber, totalPages: Math.ceil(total / pageSize), products });
 
   } catch (error) {
 
