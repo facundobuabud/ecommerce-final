@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import productRoutes from "./routes/porduct.routes";
 import authRoutes from "./routes/auth.routes"
+import orderRoutes from "./routes/order.routes";
 
 
 dotenv.config();
@@ -15,6 +16,8 @@ app.use(express.json());
 app.use("/products", productRoutes)
 
 app.use("/auth", authRoutes)
+
+app.use("/orders", orderRoutes)
 
 app.use((req, res) => {
   res.status(404).json({ success: false, error: "El recusro no se encuentra" })
