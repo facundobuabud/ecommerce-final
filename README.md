@@ -4,6 +4,38 @@ REST API para una plataforma de ecommerce construida con Node.js, Express, TypeS
 
 ---
 
+## 🧠 Funcionamiento del proyecto
+
+Este proyecto es el backend de una plataforma de ecommerce. Expone una API REST que permite gestionar productos, usuarios y órdenes de compra. Está pensado para ser consumido por un frontend o cliente HTTP como Postman.
+
+### Autenticación y roles
+
+El sistema maneja dos tipos de usuarios: **usuario común** y **administrador**. Cuando un usuario se registra mediante `/auth/register`, se crea con el rol de usuario por defecto. Para crear un administrador existe un script dedicado (`createAdmin.ts`) que se ejecuta desde la consola.
+
+Al hacer login en `/auth/login`, el servidor valida las credenciales y devuelve un **token JWT**. Este token debe enviarse en el header `Authorization` de las peticiones protegidas con el formato `Bearer <token>`. El middleware de autenticación se encarga de verificar y decodificar ese token en cada request que lo requiera.
+
+Las rutas protegidas solo para administradores tienen además un middleware `isAdmin` que verifica el rol del usuario antes de permitir el acceso.
+
+### Gestión de productos
+
+Los productos son el recurso principal de la aplicación. Cualquier visitante puede consultar el catálogo mediante `GET /products` sin necesidad de estar autenticado. Este endpoint soporta filtros por categoría, marca, rango de precios y búsqueda por texto, además de paginación y ordenamiento.
+
+Solo los administradores pueden crear, modificar o eliminar productos. El sistema implementa **soft delete**: al eliminar un producto no se borra de la base de datos sino que se marca como inactivo (`isActive: false`), lo que permite restaurarlo posteriormente si fuera necesario.
+
+Antes de guardar o actualizar un producto, los datos pasan por una validación con **Zod** que verifica que los campos sean correctos. Si algún campo falla la validación, la API responde con un error descriptivo sin llegar al controlador.
+
+### Gestión de órdenes
+
+Un usuario autenticado puede crear una orden enviando un array de productos con sus cantidades. Al procesar la orden, el sistema verifica que cada producto exista y esté activo, y que haya stock suficiente. Si todo es correcto, descuenta el stock de cada producto y crea la orden con estado `PENDING`.
+
+El ciclo de vida de una orden sigue los estados: `PENDING → CONFIRMED → SHIPPED → DELIVERED`, y puede ser cancelada (`CANCELLED`). Los usuarios solo pueden ver y cancelar sus propias órdenes. Los administradores tienen acceso a todas las órdenes y pueden actualizar el estado de cualquiera de ellas.
+
+### Validación de datos
+
+Todas las entradas de la API son validadas con **Zod** a través de un middleware genérico `validateSchema`. Si la validación falla, se responde con un error 400 y el detalle del problema.
+
+---
+
 ## 🛠️ Tecnologías
 
 - **Node.js** + **Express** — servidor y rutas
@@ -39,6 +71,8 @@ Crear un archivo `.env` en la raíz del proyecto basándose en `.env.example`:
 MONGO_URI=mongodb+srv://usuario:password@cluster.mongodb.net/ecommerce
 PORT=3000
 JWT_SECRET=tu_clave_secreta
+ADMIN_EMAIL=admin@email.com
+ADMIN_PASSWORD=tu_password_seguro
 ```
 
 ### 4. Iniciar el servidor
@@ -53,6 +87,14 @@ npm start
 ```
 
 El servidor corre en `http://localhost:3000` por defecto.
+
+### 5. Crear usuario administrador
+
+Antes de usar la API es necesario crear al menos un usuario administrador. Configurá `ADMIN_EMAIL` y `ADMIN_PASSWORD` en el `.env` y ejecutá:
+
+```bash
+npx ts-node-dev ./src/scripts/createAdmin.ts
+```
 
 ---
 
