@@ -197,7 +197,6 @@ export const cancelOrder = async (req: Request, res: Response) => {
       })
     }
 
-    // Devolvemos el stock de cada producto
     for (const item of order.items) {
       await Product.findByIdAndUpdate(item.product, {
         $inc: { stock: item.quantity }
