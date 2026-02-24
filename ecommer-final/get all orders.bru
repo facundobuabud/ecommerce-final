@@ -1,0 +1,20 @@
+meta {
+  name: get all orders
+  type: http
+  seq: 13
+}
+
+get {
+  url: http://localhost:52000/orders
+  body: none
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OThjZjdjNTJhNDhlZWJjYjgxYzc0MCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc3MTk1NjQyNCwiZXhwIjoxNzcyMDQyODI0fQ.ITC2H9zyCs-LlZ3vjoFIeW5tNqBpv31gzGyfQKYRNxg
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

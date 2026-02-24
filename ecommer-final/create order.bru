@@ -1,0 +1,29 @@
+meta {
+  name: create order
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://localhost:52000/orders
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OWRlNWRiOWRhZTc3N2RiZmFhMmE5ZCIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzcxOTU1NzAxLCJleHAiOjE3NzIwNDIxMDF9._uaLrFR07i98LNHu3dHPRa6JGXeQcSJMlYKVLwvwgDY
+}
+
+body:json {
+  {
+    "items": [
+      { "product": "6994a524afb0c520e9c1537b", "quantity": 2 },
+      { "product": "6998d04e65470f94cf33ef2e", "quantity": 1 }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

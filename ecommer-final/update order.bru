@@ -1,0 +1,26 @@
+meta {
+  name: update order
+  type: http
+  seq: 12
+}
+
+patch {
+  url: http://localhost:52000/orders/699de67e9dae777dbfaa2aa5/status
+  body: json
+  auth: inherit
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OThjZjdjNTJhNDhlZWJjYjgxYzc0MCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc3MTk1NjQyNCwiZXhwIjoxNzcyMDQyODI0fQ.ITC2H9zyCs-LlZ3vjoFIeW5tNqBpv31gzGyfQKYRNxg
+}
+
+body:json {
+  {
+    "status": "CONFIRMED"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
